@@ -87,11 +87,11 @@ Be.BehanceUserModel = Backbone.Model.extend({
   }
 });
 
-var app = {}
+var app = app || {}
 
 app.BehanceUser = new Be.BehanceUserModel({id: 339011});
 app.BehanceUser.fetch();
-// app.BehanceUser.getProjects();
+app.BehanceUser.getProjects();
 
 setTimeout(function () {
   app.BehanceUser.getNextProjectsPage();
