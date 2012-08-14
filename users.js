@@ -1,13 +1,10 @@
 Behance = Behance || {};
-Behance.api_url = 'http://www.behance.net/v2/';
-Behance.api_key = '12345678901234567890123456789012';
-Behance.docs_link = 'http://developer.behance.net';
 
 Behance.UserModel = Behance.Model.extend({
   /**
    * Set the API endpoint for users.
    */
-  url: function () {
+  url : function () {
     return Behance.api_url + 'users/' + this.id + '?api_key=' + Behance.api_key;
   },
   
@@ -15,7 +12,7 @@ Behance.UserModel = Behance.Model.extend({
    * The Behance API returns a 'users' object. We want the contents of the object.
    * @param {Object} response The response from the server.
    */
-  parse: function (response) {
+  parse : function (response) {
     return response.user;
   },
   
@@ -24,12 +21,15 @@ Behance.UserModel = Behance.Model.extend({
    * Using this method requires the BehanceProjectsCollection base collection.
    * @returns {Object} The BehanceUserModel object.
    */
-  getProjects: function() {
+  getProjects : function() {
+    
     var projects = new Behance.ProjectsCollection();
     projects.id = this.get('id');
     projects.fetch();
     this.set('projects', projects);
+    
     return this;
+    
   }, // BehanceUserModel#getProjects
   
   /**
@@ -37,11 +37,12 @@ Behance.UserModel = Behance.Model.extend({
    * @param {String} name Collection name to fetch results for.
    * @param {Number|String} page Page number.
    */
-  getPage: function (name, page) {
+  getPage : function (name, page) {
+    
     var collection;
     
     // Error out early.
-    if (!this.has(name) && console) {
+    if ( !this.has(name) && console ) {
       console.error('Behance.UserModel: Make sure you\'ve populated the ' + name + ' collection before using the paging methods. See: ' + Behance.docs_link + ' for more information.');
       return false;
     }
@@ -53,7 +54,7 @@ Behance.UserModel = Behance.Model.extend({
   /**
    * Get the next page of projects.
    */
-  getNextProjectsPage: function () {
+  getNextProjectsPage : function () {
     this.getPage('projects', 'next');
     return this;
   },
@@ -61,7 +62,7 @@ Behance.UserModel = Behance.Model.extend({
   /**
    * Get the previous page of projects.
    */
-  getPreviousProjectsPage: function () {
+  getPreviousProjectsPage : function () {
     this.getPage('projects', 'prev');
     return this;
   },
@@ -70,12 +71,13 @@ Behance.UserModel = Behance.Model.extend({
    * Get this user's WIPs.
    * Using this method requires the BehanceWipsCollection base collection.
    */
-  getWips: function() {
+  getWips : function() {
     var wips = new Behance.WipsCollection();
     wips.id = this.get('id');
     wips.fetch();
     this.set('wips', wips);
   }
+  
 });
 
 var app = app || {};

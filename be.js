@@ -1,20 +1,7 @@
 Behance = {
   
   api_url : 'http://www.behance.net/v2/',
-  
-  collections : {},
-  
-  Projects : {},
-  Search : {},
-  Users : {},
-  Wips : {}
-  
-};
-
-Behance.config = {
-  
-  api_key : '12345678901234567890123456789012',
-  callback : 'json'
+  api_key : '12345678901234567890123456789012'
   
 };
 

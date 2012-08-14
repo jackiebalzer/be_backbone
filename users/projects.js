@@ -5,14 +5,14 @@ Behance.ProjectsCollection = {};
  * Behance project collection.
  */
 Behance.ProjectsCollection = Behance.Collection.extend({
-  model: Backbone.Model,
+  model : Backbone.Model,
   
   // Special params object for API pagination, etc., including defaults.
-  params: {
+  params : {
     page: 1
   },
   
-  url: function () {
+  url : function () {
     return Behance.api_url + 'users/' + this.id + '/projects?api_key=' + Behance.api_key + '&' + $.param(this.params);
   },
   
@@ -21,7 +21,7 @@ Behance.ProjectsCollection = Behance.Collection.extend({
    * @param {String} name Collection name to fetch results for.
    * @param {Number|String} page Page number.
    */
-  getPage: function (page) {
+  getPage : function (page) {
     switch (page) {
       case 'next':
         page = this.params.page + 1;
@@ -42,7 +42,7 @@ Behance.ProjectsCollection = Behance.Collection.extend({
   /**
    * See the current page number.
    */
-  getCurrentPageNumber: function () {
+  getCurrentPageNumber : function () {
     return this.params.page;
   },
   
@@ -50,7 +50,7 @@ Behance.ProjectsCollection = Behance.Collection.extend({
    * The Behance API returns a 'projects' object. We want the contents of the object.
    * @param {Object} response The response from the server.
    */
-  parse: function (response) {
+  parse : function (response) {
     return response.projects;
   } // BehanceProjectsCollection#parse
   
