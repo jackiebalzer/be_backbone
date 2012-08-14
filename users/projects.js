@@ -17,6 +17,29 @@ Be.BehanceProjectsCollection = Be.Collection.extend({
   },
   
   /**
+   * Get a specific project page.
+   * @param {String} name Collection name to fetch results for.
+   * @param {Number|String} page Page number.
+   */
+  getPage: function (page) {
+    switch (page) {
+      case 'next':
+        page = this.params.page + 1;
+        break;
+        
+      case 'prev':
+        page = this.params.page < 1 ? 1 : this.params.page - 1;
+        break;
+        
+      default:
+        page = parseInt(page, 10);
+    };
+    
+    this.params.page = page;
+    this.fetch();
+  },
+  
+  /**
    * The Behance API returns a 'projects' object. We want the contents of the object.
    * @param {Object} response The response from the server.
    */

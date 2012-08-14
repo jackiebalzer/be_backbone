@@ -56,15 +56,14 @@ Be.BehanceUserModel = Backbone.Model.extend({
     }
     
     collection = this.get(name);
-    collection.params.page = parseInt(page, 10);
-    collection.fetch();
+    collection.getPage(page);
   },
   
   /**
    * Get the next page of projects.
    */
   getNextProjectsPage: function () {
-    this.getPage('projects', this.get('projects').params.page + 1);
+    this.getPage('projects', 'next');
     return this;
   },
   
@@ -72,8 +71,7 @@ Be.BehanceUserModel = Backbone.Model.extend({
    * Get the previous page of projects.
    */
   getPreviousProjectsPage: function () {
-    var currentPage = this.get('projects').params.page;
-    this.getPage('projects', currentPage < 1 ? 1 : currentPage - 1);
+    this.getPage('projects', 'prev');
     return this;
   },
   
@@ -86,24 +84,7 @@ Be.BehanceUserModel = Backbone.Model.extend({
     wips.id = this.get('id');
     wips.fetch();
     this.set('wips', wips);
-  },
-  
-  /**
-   * Get the next page of wips.
-   */
-  getNextProjectsPage: function () {
-    this.getPage('wips', this.get('wips').params.page + 1);
-    return this;
-  },
-  
-  /**
-   * Get the previous page of wips.
-   */
-  getPreviousProjectsPage: function () {
-    var currentPage = this.get('wips').params.page;
-    this.getPage('wips', currentPage < 1 ? 1 : currentPage - 1);
-    return this;
-  },
+  }
 });
 
 var app = {}
