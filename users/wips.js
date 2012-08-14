@@ -5,8 +5,12 @@ Be.BehanceWipsCollection = {};
 Be.BehanceWipsCollection = Be.Collection.extend({
   model: Backbone.Model,
   
+  params: {
+    page: 1
+  },
+  
   url: function () {
-    return Be.api_url + 'users/' + this.id + '/wips?api_key=' + Be.api_key;
+    return Be.api_url + 'users/' + this.id + '/wips?api_key=' + Be.api_key + '&' + $.param(this.params);
   },
   
   /**

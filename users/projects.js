@@ -21,7 +21,6 @@ Be.BehanceProjectsCollection = Be.Collection.extend({
    * @param {Object} response The response from the server.
    */
   parse: function (response) {
-    console.log('response', response.projects)
     return response.projects;
   }, // BehanceProjectsCollection#parse
   
