@@ -43,27 +43,28 @@ Be.BehanceUserModel = Backbone.Model.extend({
   
   /**
    * Get a specific project page.
-   * @param {Number|String} page Page number to fetch results for.
+   * @param {String} name Collection name to fetch results for.
+   * @param {Number|String} page Page number.
    */
-  getProjectPage: function (page) {
-    var projects;
+  getPage: function (name, page) {
+    var collection;
     
     // Error out early.
-    if (!this.has('projects') && console) {
-      console.error('Be.BehanceUserModel: Make sure you\'ve populated the projects collection before using the paging methods. See:' + Be.docs_link + 'for more information.');
+    if (!this.has(name) && console) {
+      console.error('Be.BehanceUserModel: Make sure you\'ve populated the ' + name + ' collection before using the paging methods. See:' + Be.docs_link + 'for more information.');
       return false;
     }
     
-    projects = this.get('projects');
-    projects.params.page = parseInt(page, 10);
-    projects.fetch();
+    collection = this.get(name);
+    collection.params.page = parseInt(page, 10);
+    collection.fetch();
   },
   
   /**
    * Get the next page of projects.
    */
   getNextProjectsPage: function () {
-    this.getProjectPage(this.get('projects').params.page + 1);
+    this.getPage('projects', this.get('projects').params.page + 1);
     return this;
   },
   
@@ -72,7 +73,7 @@ Be.BehanceUserModel = Backbone.Model.extend({
    */
   getPreviousProjectsPage: function () {
     var currentPage = this.get('projects').params.page;
-    this.getProjectPage(currentPage < 1 ? 1 : currentPage - 1);
+    this.getPage('projects', currentPage < 1 ? 1 : currentPage - 1);
     return this;
   },
   
