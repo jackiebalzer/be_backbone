@@ -86,7 +86,24 @@ Be.BehanceUserModel = Backbone.Model.extend({
     wips.id = this.get('id');
     wips.fetch();
     this.set('wips', wips);
-  }
+  },
+  
+  /**
+   * Get the next page of wips.
+   */
+  getNextProjectsPage: function () {
+    this.getPage('wips', this.get('wips').params.page + 1);
+    return this;
+  },
+  
+  /**
+   * Get the previous page of wips.
+   */
+  getPreviousProjectsPage: function () {
+    var currentPage = this.get('wips').params.page;
+    this.getPage('wips', currentPage < 1 ? 1 : currentPage - 1);
+    return this;
+  },
 });
 
 var app = {}
