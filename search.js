@@ -1,5 +1,5 @@
-Be = Be || {};
-Be.BehanceSearchCollection = {};
+Behance = Behance || {};
+Behance.SearchCollection = {};
 
 /**
  * Behance Search collection.
@@ -7,13 +7,14 @@ Be.BehanceSearchCollection = {};
  * This collection will...
  * TODO - Write docs.
  */
-Be.BehanceSearchResultsCollection = Be.Collection.extend({
-  model: Backbone.Model,
+Behance.SearchCollection = Behance.Collection.extend({
+  
+  model : Backbone.Model,
   
   /**
    * Available params
    */
-  params: {
+  params : {
     // Regular search string.
     search: null,
     // Maps to the 'Most Appreciated' tab.
@@ -22,42 +23,88 @@ Be.BehanceSearchResultsCollection = Be.Collection.extend({
     content: null,
     // Time frame
     time: null
-  },
+  }, // params
   
-  url: function () {
-    return Be.api_url + 'search?api_key=' + Be.api_key + '&' + $.param(this.params);
-  },
+  url : function () {
+    return Behance.api_url + 'search?api_key=' + Behance.api_key + '&' + $.param(this.params);
+  }, // url
   
-  parse: function (response) {
+  parse : function( response ) {
     return response.projects;
-  },
+  }, // parse
   
-  searchBy: function (options) {
-    if (_.isString(options)) {
+  searchBy : function( options ) {
+    
+    if ( _.isString(options) ) {
       this.searchKeyword(options);
-    } else if (_.isObject(options) && !_.isArray(options)) {
+    } else if ( _.isObject(options) && !_.isArray(options) ) {
       console.log('noop');
     }
-  },
+    
+  }, // searchBy
   
-  searchKeyword: function (keyword) {
-    this.nullAllExcept('search');
+  sortBy : function( options ) {
+    
+    var sort_options = {
+      'featured'      : 'featured_date',
+      'appreciations' : 'appreciations',
+      'views'         : 'views',
+      'comments'      : 'comments',
+      'recent'        : 'published_date',
+      'followed'      : 'followed'
+    };
+    
+    if ( typeof sort_options[options] === 'undefined' ) {
+      console.error('Invalid sort option');
+      return false;
+    }
+    
+    this.params.sort = sort_options[ options ];
+    this.fetch();
+    
+  }, // sortBy
+  
+  timeBy : function( options ) {
+    
+    var time_options = [
+      'all',
+      'today',
+      'week',
+      'month'
+    ];
+    
+    if ( !$.inArray( options, time_options ) ) {
+      console.error('Invalid time option');
+      return false;
+    }
+    
+    this.params.time = options;
+    this.fetch();
+    
+  }, // timeBy
+  
+  searchKeyword : function( keyword ) {
+    
+    //this.nullAllExcept('search');
     this.params.search = keyword;
     this.fetch();
-  },
+    
+  }, // searchKeyword
   
-  nullAllExcept: function (exception) {
+  nullAllExcept : function (exception) {
+    
     for (param in this.params) {
       if (!this.params.hasOwnProperty(param) && param == exception) { continue; }
       this.params[param] = null;
     }
+    
     return this;
-  }
+    
+  } // nullAllExcept
 });
 
 var app = app || {};
 
-app.SearchResults = new Be.BehanceSearchResultsCollection();
-app.SearchResults.searchBy('what')
-console.log('results', app.SearchResults)
-
+app.SearchResults = new Behance.SearchCollection();
+app.SearchResults.sortBy('appreciations');
+console.log('results', app.SearchResults);

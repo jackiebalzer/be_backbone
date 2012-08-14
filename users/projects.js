@@ -1,10 +1,10 @@
-Be = Be || {};
-Be.BehanceProjectsCollection = {};
+Behance = Behance || {};
+Behance.ProjectsCollection = {};
 
 /**
  * Behance project collection.
  */
-Be.BehanceProjectsCollection = Be.Collection.extend({
+Behance.ProjectsCollection = Behance.Collection.extend({
   model: Backbone.Model,
   
   // Special params object for API pagination, etc., including defaults.
@@ -13,7 +13,7 @@ Be.BehanceProjectsCollection = Be.Collection.extend({
   },
   
   url: function () {
-    return Be.api_url + 'users/' + this.id + '/projects?api_key=' + Be.api_key + '&' + $.param(this.params);
+    return Behance.api_url + 'users/' + this.id + '/projects?api_key=' + Behance.api_key + '&' + $.param(this.params);
   },
   
   /**
@@ -52,14 +52,6 @@ Be.BehanceProjectsCollection = Be.Collection.extend({
    */
   parse: function (response) {
     return response.projects;
-  }, // BehanceProjectsCollection#parse
+  } // BehanceProjectsCollection#parse
   
-  /**
-   * Behance API is JSONP.
-   * TODO - Link to documentation.
-   */
-  sync: function (method, model, options) {
-    options.dataType = 'jsonp';
-    return Backbone.sync(method, model, options);
-  } // BehanceProjectsCollection#sync
 });

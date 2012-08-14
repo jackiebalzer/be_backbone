@@ -1,14 +1,14 @@
-Be = Be || {};
-Be.api_url = 'http://www.behance.net/v2/';
-Be.api_key = '12345678901234567890123456789012';
-Be.docs_link = 'http://developer.behance.net';
+Behance = Behance || {};
+Behance.api_url = 'http://www.behance.net/v2/';
+Behance.api_key = '12345678901234567890123456789012';
+Behance.docs_link = 'http://developer.behance.net';
 
-Be.BehanceUserModel = Backbone.Model.extend({
+Behance.UserModel = Behance.Model.extend({
   /**
    * Set the API endpoint for users.
    */
   url: function () {
-    return Be.api_url + 'users/' + this.id + '?api_key=' + Be.api_key;
+    return Behance.api_url + 'users/' + this.id + '?api_key=' + Behance.api_key;
   },
   
   /**
@@ -20,21 +20,12 @@ Be.BehanceUserModel = Backbone.Model.extend({
   },
   
   /**
-   * Behance API is JSONP.
-   * TODO - Link to documentation.
-   */
-  sync: function (method, model, options) {
-    options.dataType = 'jsonp';
-    return Backbone.sync(method, model, options);
-  }, // BehanceUserCollection#sync
-  
-  /**
    * Get this user's projects.
    * Using this method requires the BehanceProjectsCollection base collection.
    * @returns {Object} The BehanceUserModel object.
    */
   getProjects: function() {
-    var projects = new Be.BehanceProjectsCollection();
+    var projects = new Behance.ProjectsCollection();
     projects.id = this.get('id');
     projects.fetch();
     this.set('projects', projects);
@@ -51,7 +42,7 @@ Be.BehanceUserModel = Backbone.Model.extend({
     
     // Error out early.
     if (!this.has(name) && console) {
-      console.error('Be.BehanceUserModel: Make sure you\'ve populated the ' + name + ' collection before using the paging methods. See: ' + Be.docs_link + ' for more information.');
+      console.error('Behance.UserModel: Make sure you\'ve populated the ' + name + ' collection before using the paging methods. See: ' + Behance.docs_link + ' for more information.');
       return false;
     }
     
@@ -80,16 +71,16 @@ Be.BehanceUserModel = Backbone.Model.extend({
    * Using this method requires the BehanceWipsCollection base collection.
    */
   getWips: function() {
-    var wips = new Be.BehanceWipsCollection();
+    var wips = new Behance.WipsCollection();
     wips.id = this.get('id');
     wips.fetch();
     this.set('wips', wips);
   }
 });
 
-var app = app || {}
+var app = app || {};
 
-app.BehanceUser = new Be.BehanceUserModel({id: 339011});
+app.BehanceUser = new Behance.UserModel({id: 339011});
 app.BehanceUser.fetch();
 app.BehanceUser.getProjects();
 
@@ -103,5 +94,5 @@ setTimeout(function () {
 
 // app.BehanceUser.getWips();
 
-console.log('Be', Be);
+console.log('Be', Behance);
 console.log('app', app);

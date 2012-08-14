@@ -1,32 +1,57 @@
-Be = Be || {};
-Be.BehanceWipsCollection = {};
+Behance = Behance || {};
+Behance.WipsCollection = {};
 
-// User Wips
-Be.BehanceWipsCollection = Be.Collection.extend({
+/**
+ * Behance project collection.
+ */
+Behance.WipsCollection = Behance.Collection.extend({
   model: Backbone.Model,
   
+  // Special params object for API pagination, etc., including defaults.
   params: {
     page: 1
   },
   
   url: function () {
-    return Be.api_url + 'users/' + this.id + '/wips?api_key=' + Be.api_key + '&' + $.param(this.params);
+    return Behance.api_url + 'users/' + this.id + '/wips?api_key=' + Behance.api_key + '&' + $.param(this.params);
   },
   
   /**
-   * The Behance API returns a 'wips' object. We want the contents of the object.
+   * Get a specific project page.
+   * @param {String} name Collection name to fetch results for.
+   * @param {Number|String} page Page number.
+   */
+  getPage: function (page) {
+    switch (page) {
+      case 'next':
+        page = this.params.page + 1;
+        break;
+        
+      case 'prev':
+        page = this.params.page < 1 ? 1 : this.params.page - 1;
+        break;
+        
+      default:
+        page = parseInt(page, 10);
+    };
+    
+    this.params.page = page;
+    this.fetch();
+  },
+  
+  /**
+   * See the current page number.
+   */
+  getCurrentPageNumber: function () {
+    return this.params.page;
+  },
+  
+  /**
+   * The Behance API returns a 'projects' object. We want the contents of the object.
    * @param {Object} response The response from the server.
    */
   parse: function (response) {
-    return response.wips;
-  }, // BehanceWipsCollection#parse
+    return response.projects;
+  } // BehanceWipsCollection#parse
   
-  /**
-   * Behance API is JSONP.
-   * TODO - Link to documentation.
-   */
-  sync: function (method, model, options) {
-    options.dataType = 'jsonp';
-    return Backbone.sync(method, model, options);
-  } // BehanceWipsCollection#sync
 });
