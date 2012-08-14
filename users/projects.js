@@ -7,8 +7,13 @@ Be.BehanceProjectsCollection = {};
 Be.BehanceProjectsCollection = Be.Collection.extend({
   model: Backbone.Model,
   
+  // Special params object for API pagination, etc., including defaults.
+  params: {
+    page: 1
+  },
+  
   url: function () {
-    return Be.api_url + 'users/' + this.id + '/projects?api_key=' + Be.api_key;
+    return Be.api_url + 'users/' + this.id + '/projects?api_key=' + Be.api_key + '&' + $.param(this.params);
   },
   
   /**
@@ -16,6 +21,7 @@ Be.BehanceProjectsCollection = Be.Collection.extend({
    * @param {Object} response The response from the server.
    */
   parse: function (response) {
+    console.log('response', response.projects)
     return response.projects;
   }, // BehanceProjectsCollection#parse
   
