@@ -40,6 +40,13 @@ Be.BehanceProjectsCollection = Be.Collection.extend({
   },
   
   /**
+   * See the current page number.
+   */
+  getCurrentPageNumber: function () {
+    return this.params.page;
+  },
+  
+  /**
    * The Behance API returns a 'projects' object. We want the contents of the object.
    * @param {Object} response The response from the server.
    */

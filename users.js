@@ -51,7 +51,7 @@ Be.BehanceUserModel = Backbone.Model.extend({
     
     // Error out early.
     if (!this.has(name) && console) {
-      console.error('Be.BehanceUserModel: Make sure you\'ve populated the ' + name + ' collection before using the paging methods. See:' + Be.docs_link + 'for more information.');
+      console.error('Be.BehanceUserModel: Make sure you\'ve populated the ' + name + ' collection before using the paging methods. See: ' + Be.docs_link + ' for more information.');
       return false;
     }
     
@@ -91,11 +91,7 @@ var app = {}
 
 app.BehanceUser = new Be.BehanceUserModel({id: 339011});
 app.BehanceUser.fetch();
-app.BehanceUser.getProjects();
-
-// setTimeout(function () {
-//   app.BehanceUser.getNextProjectsPage();
-// }, 1000);
+// app.BehanceUser.getProjects();
 
 setTimeout(function () {
   app.BehanceUser.getNextProjectsPage();
