@@ -1,14 +1,30 @@
-Be.Users.Projects = {};
+Be = Be || {};
+Be.BehanceProjectsCollection = {};
 
-// User Projects
-Be.Users.Projects.Collection = Be.Collection.extend({
+/**
+ * Behance project collection.
+ */
+Be.BehanceProjectsCollection = Be.Collection.extend({
+  model: Backbone.Model,
   
-  model : Backbone.Model,
+  url: function () {
+    return Be.api_url + 'users/' + this.id + '/projects?api_key=' + Be.api_key;
+  },
   
-  params : {},
+  /**
+   * The Behance API returns a 'projects' object. We want the contents of the object.
+   * @param {Object} response The response from the server.
+   */
+  parse: function (response) {
+    return response.projects;
+  }, // BehanceProjectsCollection#parse
   
-  url : function() {
-    return Be.api_url + 'users/' + this.id + '/projects?' + $.param( $.extend( {}, Be.config, this.params ) );
-  }
-  
+  /**
+   * Behance API is JSONP.
+   * TODO - Link to documentation.
+   */
+  sync: function (method, model, options) {
+    options.dataType = 'jsonp';
+    return Backbone.sync(method, model, options);
+  } // BehanceProjectsCollection#sync
 });
